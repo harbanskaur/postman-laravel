@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Image;
+use Carbon\Carbon;
+
 class hello extends Controller
 {
+    //form submit function
     public function form_submit(Request $request)
     {
         $data=new Post;
@@ -20,12 +24,16 @@ class hello extends Controller
         return response()->json(['msg'=>'record inserted']);
         
     }
+
+    //form display function
     public function form_display()
     {
         $show=Post::get()->toJson(JSON_PRETTY_PRINT);
         return response($show);
 
     }
+
+    //delete function
     public function delete($id)
     {
         if(Post::where('id',$id)->exists())
@@ -39,6 +47,8 @@ class hello extends Controller
             return response()->json(['msg'=>'record not found']);
        }
     }
+
+    //to fetch record to edit  
     public function edit($id)
     {
         if(Post::where('id',$id)->exists())
@@ -51,6 +61,8 @@ class hello extends Controller
             return response()->json(['msg'=>'record not found']);
        }
     }
+
+    //update function 
     public function update(Request $request, $id)
     {
         if(Post::where('id',$id)->exists())
@@ -66,8 +78,9 @@ class hello extends Controller
         {
              return response()->json(['msg'=>'record not found']);
         }
-    }
+    } 
 
+    //search function
     public function search($name)
     {
         if(Post::where('name','LIKE','%'.$name.'%')->exists())
@@ -80,4 +93,36 @@ class hello extends Controller
              return response()->json(['msg'=>'record not found']);
         }
     }
+    
+    //current date and time
+    public function datetime()
+    {
+        $datetime=Carbon::now('Asia/Kolkata');
+        echo $datetime;
+    }
+
+    //image upload
+    public function imageUpload(Request $request)
+    {
+        $uploadFolder = 'users';
+    
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $extension = $image->getClientOriginalExtension();
+            $filename = time().'.'.$extension;
+            $image_uploaded_path = $image->move($uploadFolder, $filename, 'public');
+            
+            if($request->isMethod('post')){
+                $img = new Image;
+                $img->image = $image_uploaded_path;
+                $img->save(); // You should save the image record to the database.
+            }
+    
+            return response()->json(["message" => "Image Uploaded"]);
+
+        } else {
+            return response()->json(["message" => "No file uploaded"], 400); // Return a proper error response.
+        }
+    }
+    
 }

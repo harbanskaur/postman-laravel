@@ -23,3 +23,5 @@ Route::post('delete/{id}',[hello::class,'delete']);
 Route::get('edit/{id}',[hello::class,'edit']);
 Route::put('update/{id}',[hello::class,'update']);
 Route::get('search/{name}',[hello::class,'search']);
+Route::get('/date',[hello::class,'datetime']);
+Route::post('/image',[hello::class,'imageUpload']);
