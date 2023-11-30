@@ -18,7 +18,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/form-submit',[hello::class,'form_submit']);
-Route::post('/form-display',[hello::class,'form_display']);
+Route::get('/form-display',[hello::class,'form_display']);
 Route::post('delete/{id}',[hello::class,'delete']);
 Route::get('edit/{id}',[hello::class,'edit']);
 Route::put('update/{id}',[hello::class,'update']);

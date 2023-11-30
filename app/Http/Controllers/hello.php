@@ -21,7 +21,7 @@ class hello extends Controller
             $data->save();
 
         }
-        return response()->json(['msg'=>'record inserted']);
+        return response()->json(['msg'=>'record inserted'], 201);
         
     }
 
@@ -40,11 +40,11 @@ class hello extends Controller
         {
             $delete=Post::find($id);
             $delete->delete();
-            return response()->json(['msg'=>'record deleted']);
+            return response()->json(['msg'=>'record deleted'], 200);
         }
        else
        {
-            return response()->json(['msg'=>'record not found']);
+            return response()->json(['msg'=>'record not found'], 404);
        }
     }
 
@@ -58,7 +58,7 @@ class hello extends Controller
         }
        else
        {
-            return response()->json(['msg'=>'record not found']);
+            return response()->json(['msg'=>'record not found'], 404);
        }
     }
 
@@ -72,11 +72,11 @@ class hello extends Controller
             $data->email=$request->get('email');
             $data->course=$request->get('course');
             $data->save();
-            return response()->json(['msg'=>'UPDATED ']);
+            return response()->json(['msg'=>'UPDATED '], 200);
         }
         else
         {
-             return response()->json(['msg'=>'record not found']);
+             return response()->json(['msg'=>'record not found'], 404);
         }
     } 
 
@@ -90,7 +90,7 @@ class hello extends Controller
         }
         else
         {
-             return response()->json(['msg'=>'record not found']);
+             return response()->json(['msg'=>'record not found'] ,404);
         }
     }
     
@@ -118,10 +118,10 @@ class hello extends Controller
                 $img->save(); // You should save the image record to the database.
             }
     
-            return response()->json(["message" => "Image Uploaded"]);
+            return response()->json(["message" => "Image Uploaded"], 200);
 
         } else {
-            return response()->json(["message" => "No file uploaded"], 400); // Return a proper error response.
+            return response()->json(["message" => "No file uploaded"], 404); // Return a proper error response.
         }
     }
     
